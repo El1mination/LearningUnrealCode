@@ -2,6 +2,7 @@
 
 
 #include "MainCharacter.h"
+#include "GameplayActors/Floater.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter()
