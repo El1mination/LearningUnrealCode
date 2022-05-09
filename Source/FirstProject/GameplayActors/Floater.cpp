@@ -18,6 +18,11 @@ AFloater::AFloater()
 void AFloater::BeginPlay()
 {
 	Super::BeginPlay();
+
+	PlacedLocation = GetActorLocation();
+	// PlacedLocation can get the original location from the objects because it is called before InitialLocation is
+
+	SetActorLocation(InitialLocation);
 	
 }
 

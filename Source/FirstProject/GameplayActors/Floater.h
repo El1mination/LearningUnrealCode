@@ -18,6 +18,17 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "ActorMeshComponents")
 	UStaticMeshComponent* StaticMesh;
 
+	//Location used by SetActorLocation() When BeginPlay() is called
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Floater Variables")
+	FVector InitialLocation = FVector(0.0f);
+
+	// Location of the actor when dragged in from the editor
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "Floater Variables")
+	FVector PlacedLocation;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Floater Variables")
+	bool bInitializeFloaterLocations;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
