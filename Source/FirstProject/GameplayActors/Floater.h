@@ -15,19 +15,61 @@ public:
 	// Sets default values for this actor's properties
 	AFloater();
 
-	UPROPERTY(VisibleAnywhere, Category = "ActorMeshComponents")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ActorMeshComponents")
 	UStaticMeshComponent* StaticMesh;
 
 	//Location used by SetActorLocation() When BeginPlay() is called
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Floater Variables")
-	FVector InitialLocation = FVector(0.0f);
+	FVector InitialLocation;
 
 	// Location of the actor when dragged in from the editor
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "Floater Variables")
 	FVector PlacedLocation;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Floater Variables")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Floater Variables")
+	FVector WorldOrigin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadonly, Category = "Floater Variables")
+	FVector InitialDirection;
+
+	UPROPERTY(EditAnywhere, BlueprintReadonly, Category = "Floater Variables")
+	bool bShouldFloat;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Floater Variables")
 	bool bInitializeFloaterLocations;
+
+	UPROPERTY(BlueprintReadWrite, EditInstanceOnly, Category = "Floater Variables")
+	FVector InitialForce;
+
+	UPROPERTY(BlueprintReadWrite, EditInstanceOnly, Category = "Floater Variables")
+	FVector InitialTorque;
+
+private:
+	float RunningTime;
+
+	float BaseZLocation;
+
+public:
+	// Amplitude - How much we oscillate up and down
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Floater Variables")
+	float A;
+
+	// Period - is 2 * PI / (Absolute Value Of B)
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Floater Variables")
+	float B;
+
+	// Phase Shift is ( C / B )
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Floater Variables")
+	float C;
+
+	// Verticle Shift is D
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Floater Variables")
+	float D;
+
+/// <summary>
+/// 
+/// </summary>
 
 protected:
 	// Called when the game starts or when spawned
