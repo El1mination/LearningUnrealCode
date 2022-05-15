@@ -4,6 +4,7 @@
 #include "Critter.h"
 #include "Components/StaticMeshComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/InputComponent.h"
 
 // Sets default values
 ACritter::ACritter()
@@ -26,6 +27,9 @@ ACritter::ACritter()
 	
 	//This allows you use the pawn as a player
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	CurrentVelocity = FVector(0.f);
+	MaxSpeed = 100.f;
 }
 
 // Called when the game starts or when spawned
@@ -40,6 +44,10 @@ void ACritter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// This sets the variable NewLocation = to the current pawns location + CurrentVelocity * Deltatime
+	FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
+	// This sets the actor location as the same value of NewLocation
+	SetActorLocation(NewLocation);
 }
 
 // Called to bind functionality to input
@@ -47,5 +55,20 @@ void ACritter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// This gets called when MoveForward is pressed
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ACritter::MoveForward);
+	// This gets called when MoveRight is pressed
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &ACritter::MoveRight);
+
+}
+
+void ACritter::MoveForward(float Value)
+{
+	CurrentVelocity.X = FMath::Clamp(Value, -1.f, 1.f) * MaxSpeed;
+}
+
+void ACritter::MoveRight(float Value)
+{
+	CurrentVelocity.Y = FMath::Clamp(Value, -1.f, 1.f) * MaxSpeed;
 }
 
